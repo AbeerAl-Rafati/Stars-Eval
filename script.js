@@ -1,17 +1,3 @@
-// Initialize Firebase with your configuration
-const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
-};
-
-firebase.initializeApp(firebaseConfig);
-
-const database = firebase.database();
-
 const names = [];
 
 function addNames() {
@@ -33,16 +19,12 @@ function addNames() {
     }
 
     saveData();
+    displayResults();
 }
 
 function saveData() {
-    const evaluationsRef = database.ref('evaluations');
-
-    // Push data to the 'evaluations' node
-    const newEvaluationRef = evaluationsRef.push();
-    newEvaluationRef.set(names);
-
-    displayResults();
+    // Save data to localStorage
+    localStorage.setItem('evaluations', JSON.stringify(names));
 }
 
 function displayResults() {
@@ -74,3 +56,12 @@ function displayResults() {
         resultsList.appendChild(listItem);
     });
 }
+
+// Load data from localStorage on page load
+document.addEventListener('DOMContentLoaded', () => {
+    const storedData = localStorage.getItem('evaluations');
+    if (storedData) {
+        names.push(...JSON.parse(storedData));
+        displayResults();
+    }
+});
