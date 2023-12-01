@@ -1,28 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Evaluation App</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
 
-<div id="app">
-    <h1>Evaluation App</h1>
+#app {
+    max-width: 600px;
+    margin: 0 auto;
+}
 
-    <div>
-        <h2>Add Names and Ratings</h2>
-        <ul id="nameList"></ul>
-        <button onclick="addNames()">Add Names</button>
-    </div>
+h1, h2 {
+    text-align: center;
+}
 
-    <div>
-        <h2>Evaluation Results</h2>
-        <ul id="results"></ul>
-    </div>
-</div>
+button {
+    display: block;
+    margin: 10px auto;
+}
 
-<script src="script.js"></script>
-</body>
-</html>
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+.star-rating {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    font-size: 20px;
+}
+
+.star-rating > span {
+    display: inline-block;
+    position: relative;
+    width: 1.1em;
+}
+
+.star-rating > span:hover:before,
+.star-rating > span:hover ~ span:before {
+    content: '\2605';
+    position: absolute;
+    color: gold;
+}
