@@ -1,3 +1,17 @@
+// Initialize Firebase with your configuration
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const database = firebase.database();
+
 const names = [];
 
 function addNames() {
@@ -6,7 +20,8 @@ function addNames() {
         if (name) {
             const rating = prompt(`Enter Rating (1-5) for ${name}:`);
             if (rating && parseInt(rating) >= 1 && parseInt(rating) <= 5) {
-                names.push({ name, rating });
+                const narrative = prompt(`Enter Narrative Evaluation for ${name}:`);
+                names.push({ name, rating, narrative });
             } else {
                 alert("Please enter a valid rating (1-5).");
                 return;
@@ -16,6 +31,16 @@ function addNames() {
             return;
         }
     }
+
+    saveData();
+}
+
+function saveData() {
+    const evaluationsRef = database.ref('evaluations');
+
+    // Push data to the 'evaluations' node
+    const newEvaluationRef = evaluationsRef.push();
+    newEvaluationRef.set(names);
 
     displayResults();
 }
@@ -44,6 +69,7 @@ function displayResults() {
                 <span style="width: ${person.rating * 20}%">☆☆☆☆☆</span>
             </div>
             <p>Rating: ${person.rating} stars</p>
+            <p>Narrative: ${person.narrative}</p>
         `;
         resultsList.appendChild(listItem);
     });
